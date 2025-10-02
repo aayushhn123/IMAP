@@ -1,0 +1,61 @@
+{% extends "common/base.html" %}
+
+{% block title %}
+<title>Blog</title>
+{% endblock title %}
+
+{% block body %}
+{% load static %}
+<header class="masthead" style="background-image:url('assets/img/post-bg.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-lg-8 mx-auto">
+                <div class="post-heading">
+                    <h1>{{ blog.title }}</h1>
+                    <h2 class="subheading">{{ blog.subtitle }}</h2><span class="meta">Posted by&nbsp;<a href="#">{{ blog.author }}</a>&nbsp;on {{ blog.upload_date }}</span></div>
+            </div>
+        </div>
+    </div>
+</header>
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-lg-8 mx-auto">
+
+                {{ blog.content }}
+                
+            
+                <hr>
+                
+                <div class="my-5">
+                    <h4>Leave a Comment:</h4>
+                    <form method="POST" action={% url "create_comment" blog.id %}>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment-textarea" rows="4" placeholder="Write your comment here..." name="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+                    </form>
+                </div>
+
+                <div class="mt-5">
+                    <h3>Comments</h3>
+                    <hr>
+                    {% for comment in comments %}
+                        <div class="comment my-4">
+                            <p>{{ comment.content }}</p>
+                            <small class="text-muted">Posted on: {{ comment.created_at }}</small>
+                        </div>
+                        <hr>
+                    {% endfor %}
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+{% endblock body %}
+    
